@@ -4,16 +4,20 @@
 let audioEnabled = true;
 let audioCtx = null;
 
-// Initialize Web Audio Context on first interaction
+// Initialize Web Audio Context on user interaction safely
 function getAudioContext() {
-  if (!audioCtx) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) {
-      audioCtx = new AudioContext();
+  try {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        audioCtx = new AudioContext();
+      }
     }
-  }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  } catch (e) {
+    console.warn('Audio context init error:', e);
   }
   return audioCtx;
 }
@@ -40,25 +44,26 @@ function playTone(freq, type = 'sine', duration = 0.3, gainVal = 0.08) {
     osc.start();
     osc.stop(ctx.currentTime + duration);
   } catch (e) {
-    console.warn('Audio play error:', e);
+    // Silent catch if audio is blocked by browser
   }
 }
 
 // Sound FX Presets
 function playSound(effect) {
   if (!audioEnabled) return;
-  
-  if (effect === 'click') {
-    playTone(523.25, 'sine', 0.15, 0.06); // C5
-  } else if (effect === 'reveal') {
-    playTone(587.33, 'sine', 0.2, 0.07); // D5
-    setTimeout(() => playTone(880, 'sine', 0.3, 0.08), 100); // A5
-  } else if (effect === 'celebrate') {
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C
-    notes.forEach((freq, idx) => {
-      setTimeout(() => playTone(freq, 'sine', 0.4, 0.08), idx * 120);
-    });
-  }
+  try {
+    if (effect === 'click') {
+      playTone(523.25, 'sine', 0.15, 0.06); // C5
+    } else if (effect === 'reveal') {
+      playTone(587.33, 'sine', 0.2, 0.07); // D5
+      setTimeout(() => playTone(880, 'sine', 0.3, 0.08), 100); // A5
+    } else if (effect === 'celebrate') {
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 'sine', 0.4, 0.08), idx * 120);
+      });
+    }
+  } catch (e) {}
 }
 
 // Sound Toggle Handler
@@ -212,7 +217,6 @@ function spawnConfetti(x, y, count = 40) {
 
 // Canvas click interaction
 window.addEventListener('click', (e) => {
-  // Spawn mini sparkle burst on click unless clicking input/button
   if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
     spawnConfetti(e.clientX, e.clientY, 8);
   }
@@ -222,40 +226,55 @@ window.addEventListener('click', (e) => {
 initCanvas();
 animateCanvas();
 
-// --- HIDDEN MESSAGE INTERACTION ---
-function showMessage(id) {
-  playSound('reveal');
-  const element = document.getElementById(id);
-  if (!element) return;
+// --- HIDDEN MESSAGE INTERACTION (FIXED & BULLETPROOF) ---
+function showMessage(id, ev) {
+  try {
+    playSound('reveal');
+  } catch (e) {}
 
-  const isHidden = !element.classList.contains('show');
+  const element = document.getElementById(id);
+  if (!element) {
+    console.error('Element not found:', id);
+    return;
+  }
+
+  const isHidden = getComputedStyle(element).display === 'none' || !element.classList.contains('show');
 
   if (isHidden) {
     element.classList.add('show');
-    
-    // Trigger confetti burst near button
-    const btn = event ? event.currentTarget : null;
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
-    } else {
-      spawnConfetti(width / 2, height / 2, 25);
+    element.style.display = 'block';
+
+    // Safely determine click position
+    let clickX = width / 2;
+    let clickY = height / 2;
+
+    const eventObj = ev || (typeof event !== 'undefined' ? event : null);
+    if (eventObj && eventObj.currentTarget) {
+      const rect = eventObj.currentTarget.getBoundingClientRect();
+      clickX = rect.left + rect.width / 2;
+      clickY = rect.top + rect.height / 2;
     }
+
+    spawnConfetti(clickX, clickY, 35);
 
     setTimeout(() => {
       element.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });
-    }, 100);
+    }, 50);
   } else {
     element.classList.remove('show');
+    element.style.display = 'none';
   }
 }
 
 // --- PEACE SELECTION TOAST & CELEBRATION ---
 function handlePeaceSelection(choiceText) {
-  playSound('celebrate');
+  try {
+    playSound('celebrate');
+  } catch (e) {}
+
   spawnConfetti(width / 2, height / 3, 70);
 
   const toast = document.getElementById('toast');
@@ -273,3 +292,4 @@ function handlePeaceSelection(choiceText) {
 window.showMessage = showMessage;
 window.toggleSound = toggleSound;
 window.handlePeaceSelection = handlePeaceSelection;
+window.playSound = playSound;
