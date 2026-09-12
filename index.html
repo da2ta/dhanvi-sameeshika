@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Dhanvi & Sameeshika 💌</title>
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Background Particle Canvas -->
+  <canvas id="heart-canvas"></canvas>
+
+  <!-- Sound Toggle Floating Button -->
+  <button id="sound-toggle" class="sound-toggle-btn" onclick="toggleSound()">
+    <span class="sound-icon">🔊</span> Sound On
+  </button>
+
+  <!-- Celebratory Toast Notification -->
+  <div id="toast" class="toast-container">
+    Peace accepted! 💖 (Dhanvi & Sameeshika)
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+
+        <div class="small-tag">A little something for</div>
+
+        <h1>
+          Dhanvi<br>
+          <span class="ampersand">&amp;</span><br>
+          Sameeshika 💌
+        </h1>
+
+        <p class="subtitle">
+          Some people come into our lives randomly...
+          and somehow become a very important part of it.
+        </p>
+
+        <a href="#message" class="scroll-btn" onclick="playSound('click')">
+          Read this 💗
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+
+  <!-- MESSAGE CONTENT -->
+  <section id="message">
+    <div class="container">
+
+      <!-- CARD 1: EXPLANATION & APOLOGY -->
+      <div class="section-card message-card">
+        <h2 class="section-title">
+          Okay... I need to say something 🥹
+        </h2>
+
+        <p>
+          Dhanvi and Sameeshika, I don't know exactly how to put
+          everything into words, but there are some things that
+          deserve to be said properly.
+        </p>
+
+        <br>
+
+        <p>
+          If I ever made you feel bad, ignored you, annoyed you,
+          or did something that hurt you,
+          <span class="highlight">I'm genuinely sorry.</span>
+        </p>
+
+        <br>
+
+        <p>
+          Sometimes we don't realise how much our actions affect
+          the people around us until later.
+        </p>
+      </div>
+
+      <!-- CARD 2: VALUE OF FRIENDSHIP -->
+      <div class="section-card">
+        <h2 class="section-title">
+          One thing I want you to know 🌷
+        </h2>
+
+        <p>
+          You both are genuinely special.
+          The random conversations, stupid jokes,
+          arguments, laughs and all those little moments
+          are things that actually matter.
+        </p>
+
+        <br>
+
+        <p>
+          Friendships aren't supposed to be perfect.
+          People misunderstand each other sometimes.
+          What matters is whether we care enough
+          to fix things.
+        </p>
+      </div>
+
+      <!-- CARD 3: TELUGU MESSAGE -->
+      <div class="section-card telugu-card">
+        <h2 class="section-title">
+          Konchem Telugu lo cheppali ante... ❤️
+        </h2>
+
+        <p class="telugu-text">
+          Dhanvi &amp; Sameeshika,
+          meeru iddaru naaku chaala important.
+          Manam entha silly ga godava padina,
+          entha arguments vachina,
+          aa friendship value naaku chaala ekkuva.
+          <br><br>
+          Eppudaina naa valla meeku badha kaligi unte,
+          nijanga sorry.
+          Intentional ga eppudu hurt cheyyalani anukoledu.
+          <br><br>
+          Mana friendship ilage happy ga,
+          crazy ga,
+          memorable ga undali ani korukuntunna. 🫶🏻
+        </p>
+      </div>
+
+      <!-- CARD 4: PROMISES -->
+      <div class="section-card">
+        <h2 class="section-title">
+          A few little promises 🤝
+        </h2>
+
+        <div class="promise-grid">
+          <div class="promise-card">
+            <div class="emoji">🫶🏻</div>
+            <h3>Listen</h3>
+            <p>
+              I'll try to understand instead of
+              immediately reacting.
+            </p>
+          </div>
+
+          <div class="promise-card">
+            <div class="emoji">🌷</div>
+            <h3>Respect</h3>
+            <p>
+              Your feelings and your friendship
+              deserve respect.
+            </p>
+          </div>
+
+          <div class="promise-card">
+            <div class="emoji">✨</div>
+            <h3>Memories</h3>
+            <p>
+              Let's make more good memories
+              instead of holding onto bad moments.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5: SURPRISE HIDDEN MESSAGE -->
+      <div class="section-card">
+        <h2 class="section-title">
+          One more thing... 👀
+        </h2>
+
+        <p>
+          I could have just sent a normal message,
+          but honestly, that felt too boring.
+        </p>
+
+        <div class="button-area">
+          <button class="action-btn" onclick="showMessage('surprise')">
+            Click for one more thing 💌
+          </button>
+        </div>
+
+        <div id="surprise" class="hidden-message">
+          <p>
+            No matter how many silly arguments happen,
+            I hope we never let one bad moment erase
+            all the good ones. ❤️
+          </p>
+
+          <br>
+
+          <p>
+            <strong>
+              Dhanvi &amp; Sameeshika,
+              thank you for being you.
+            </strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- CARD 6: FINAL MESSAGE & PEACE CHECK -->
+      <div class="section-card">
+        <h2 class="section-title">
+          And finally... 🥹
+        </h2>
+
+        <p>
+          There isn't some huge complicated message hidden here.
+          It's actually very simple.
+        </p>
+
+        <br>
+
+        <p>
+          <span class="highlight">
+            I'm sorry.
+          </span>
+          <br>
+          I care about our friendship.
+          <br>
+          And I hope we can keep making good memories together.
+        </p>
+
+        <div class="button-area">
+          <button class="action-btn" onclick="showMessage('finalMessage')">
+            Open the last message ❤️
+          </button>
+        </div>
+
+        <div id="finalMessage" class="hidden-message">
+          <p>
+            Whatever happens, please remember one thing:
+          </p>
+
+          <br>
+
+          <p style="font-size:22px; font-weight:700; color: var(--color-primary);">
+            You both matter more than you probably realise. 🫶🏻
+          </p>
+
+          <br>
+
+          <p style="font-size:20px; font-weight:600; color: var(--color-accent);">
+            So... peace? 🥹🤝
+          </p>
+
+          <div class="peace-options">
+            <button class="peace-choice-btn" onclick="handlePeaceSelection('Peace! 🕊️✨')">
+              Peace! 🕊️✨
+            </button>
+            <button class="peace-choice-btn" onclick="handlePeaceSelection('Forgiven forever! 💖')">
+              Forgiven forever! 💖
+            </button>
+            <button class="peace-choice-btn" onclick="handlePeaceSelection('Best friends always! 🌸')">
+              Best friends always! 🌸
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FINAL OUTRO -->
+  <section class="final">
+    <div class="container">
+      <h2>
+        For Dhanvi &amp; Sameeshika 💗
+      </h2>
+
+      <p>
+        Here's to forgetting the unnecessary negativity,
+        keeping the good memories,
+        laughing at the stupid things,
+        and making many more memories together.
+      </p>
+
+      <div class="signature">
+        With lots of respect &amp; friendship 🌷
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    Made with 💗 — just for Dhanvi &amp; Sameeshika
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
